@@ -8,54 +8,55 @@ app.use(cors())
 app.use(express.json())
 
 
-app.get('/matricula', async(req, resp) => {
+app.get('/produto', async(req, resp) => {
     try {
-        let alunos = await db.tb_matricula.findAll({order: [['id_matricula', 'desc']]})
-        resp.send(alunos)
+        let p = await db.tb_produto.findAll({order: [['id_produto', 'desc']]})
+        resp.send(p)
     } catch (e) {
         resp.send({erro: e.toString()})
     }
 })
 
-app.post ('/matricula', async(req, resp) => {
+app.post ('/produto', async(req, resp) => {
     try {
-        let {nome, chamada, curso, turma} = req.body
+        let {nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem, data} = req.body
 
-        let consulta = await db.tb_matricula.findOne({ where: { nr_chamada: chamada, nm_turma: turma}})
-        
-
-        if(consulta != null){
-            resp.send({ erro: "Aluno já existe"})
-        } else {
-            if(nome == "" || chamada == "" || curso== "" || turma == "")
-            {
-                resp.send({ erro: 'Campo nulo detectado'})
-            } else {  let r = await db.tb_matricula.create({
-                  nm_aluno: nome,
-                  nr_chamada: chamada,
-                  nm_curso: curso,
-                  nm_turma: turma
+         let r = await db.tb_produto.create({
+                  nm_produto: nome,
+                  ds_categoria: categoria,
+                  vl_preco_de: precoDe,
+                  vl_preco_por: precoPor,
+                  vl_avaliacao: avaliacao,
+                  ds_produto: descProduto,
+                  qtd_estoque: estoque,
+                  img_produto: imagem,
+                  dt_inclusao: data
             }) 
         resp.send(r)
-    }}}  catch {
+    }  catch {
         resp.send({ erro: e.toString() })
     }
 })
 
-app.put('/matricula/:id', async(req, resp) => {
+app.put('/produto/:id', async(req, resp) => {
     try {
-        let {nome, chamada, curso, turma} = req.body
+        let {nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem, data} = req.body
         let {id} = req.params
 
-        let r = await db.tb_matricula.update(
+        let r = await db.tb_produto.update(
             {
-                nm_aluno: nome,
-                nr_chamada: chamada, 
-                nm_curso: curso,
-                nm_turma: turma
+                  nm_produto: nome,
+                  ds_categoria: categoria,
+                  vl_preco_de: precoDe,
+                  vl_preco_por: precoPor,
+                  vl_avaliacao: avaliacao,
+                  ds_produto: descProduto,
+                  qtd_estoque: estoque,
+                  img_produto: imagem,
+                  dt_inclusao: data
             },
             {
-                where: {id_matricula: id}
+                where: {id_produto: id}
             }
         )
         resp.sendStatus(200)
@@ -64,11 +65,11 @@ app.put('/matricula/:id', async(req, resp) => {
     }
     })
 
-    app.delete('/matricula/:id', async(req, resp) => {
+    app.delete('/produto/:id', async(req, resp) => {
         try {
             let { id } = req.params
 
-            let r = await db.tb_matricula.destroy ({where: { id_matricula: id } })
+            let r = await db.tb_produto.destroy ({where: { id_produto: id } })
             resp.sendStatus(200)
         } catch (e) {
             resp.send({ erro: e.toString() })
