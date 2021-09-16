@@ -18,11 +18,15 @@ const api = new Api()
 
 export default function Index() {
     
-    const [alunos, setAlunos] = useState([])
+    const [produto, setProduto] = useState([])
     const [nome, setNome] = useState('')
-    const [chamada, setChamada] = useState('')
-    const [turma, setTurma] = useState('')
-    const [curso, setCurso] = useState('')
+    const [categoria, setCategoria] = useState('')
+    const [precoDe, setPrecoDe] = useState('')
+    const [precoPor, setPrecoPor] = useState('')
+    const [avaliacao, setAvaliacao] = useState('')
+    const [descProduto, setDescProduto] = useState('')
+    const [estoque, setEstoque] = useState('')
+    const [imagem, setImagem] = useState('')
     const [idAlterando, setIdAlterando] = useState(0)
     let loading               = useRef(null);
 
@@ -31,7 +35,7 @@ export default function Index() {
         loading.current.continuousStart();
 
         let r = await api.listar()
-        setAlunos(r) 
+        setProduto(r) 
 
         loading.current.complete();
     }
@@ -45,22 +49,22 @@ export default function Index() {
         loading.current.continuousStart();
 
         
-        if(chamada > 0){
+        if( precoPor > 0){
             if(idAlterando == 0 ){
-                let r = await api.inserir (nome, chamada, curso, turma); 
+                let r = await api.inserir (nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem); 
                 if(r.erro)
                     toast.error('♏'+ r.erro)
                 else 
-                    toast.dark('♏Aluno inserido')
+                    toast.dark('♏Produto inserido')
             } else {
-                let r = await api.alterar(idAlterando, nome, chamada, curso, turma);
+                let r = await api.alterar(idAlterando, nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem);
                 if(r.erro)
                     toast.error('♏' + r.erro)
                 else
-                    toast.dark('♏Aluno alterado')
+                    toast.dark('♏Produto alterado')
             }
         } else (
-            toast.dark('♏O campo de chamada está preenchido incorretamente')
+            toast.dark('♏O campo de preço está preenchido incorretamente')
         )
         listar()
         limparCampos()
@@ -71,9 +75,13 @@ export default function Index() {
 
     function limparCampos() {
         setNome('')
-        setChamada('')
-        setCurso('')
-        setTurma('')
+        setCategoria('')
+        setPrecoDe('')
+        setPrecoPor('')
+        setAvaliacao('')
+        setDescProduto('')
+        setEstoque('')
+        setImagem('')
         setIdAlterando(0)
     }
 
@@ -81,8 +89,8 @@ export default function Index() {
         loading.current.continuousStart();
 
         confirmAlert({
-            title: 'Remover aluno',
-            message: `Tem certeza que quer remover o aluno ${id} ?`,
+            title: 'Remover produto',
+            message: `Tem certeza que quer remover o produto ${id} ?`,
             buttons: [
                 {
                     label: '♏Sim',
@@ -91,7 +99,7 @@ export default function Index() {
                         if(r.erro){
                             toast.dark(`♏${r.erro}`);
                         } else {
-                            toast.dark('♏Aluno removido com sucesso')
+                            toast.dark('♏Produto removido com sucesso')
                             listar();
                         }
                     }
@@ -110,11 +118,15 @@ export default function Index() {
     async function editar(item) {
         loading.current.continuousStart();
 
-        setNome(item.nm_aluno)
-        setChamada(item.nr_chamada)
-        setCurso(item.nm_curso)
-        setTurma(item.nm_turma)
-        setIdAlterando(item.id_matricula)
+        setNome(item.nm_produto)
+        setCategoria(item.ds_categoria)
+        setPrecoDe(item.vl_preco_de)
+        setPrecoPor(item.vl_preco_por)
+        setAvaliacao(item.vl_avaliacao)
+        setDescProduto(item.ds_produto)
+        setEstoque(item.qtd_estoque)
+        setImagem(item.img_produto)
+        setIdAlterando(item.id_produto)
 
         loading.current.complete();
     }
@@ -145,42 +157,37 @@ export default function Index() {
                                         </div> 
                                         <div class="agp-input">
                                             <div class="number-product"> Categoria: </div>  
-                                            <input class="input" type="text" value={chamada} onChange={e => setChamada(e.target.value)} /> 
+                                            <input class="input" type="text" value={categoria} onChange={e => setCategoria(e.target.value)} /> 
                                         </div>
                                         <div class="agp-input">
                                             <div class="number-product"> Avaliação: </div>  
-                                            <input class="input" type="text" value={chamada} onChange={e => setChamada(e.target.value)} /> 
+                                            <input class="input" type="text" value={avaliacao} onChange={e => setAvaliacao(e.target.value)} /> 
                                         </div>
                                     </div>
-
                                     <div class="input-right">
-                                        <div className ="input-haha">
                                         <div class="agp-input">
                                             <div class="corse-product"> Preço De: </div>  
-                                            <input class="input" type="text" value={curso} onChange={e => setCurso(e.target.value)} />
+                                            <input class="input" type="text" value={precoDe} onChange={e => setPrecoDe(e.target.value)} />
                                         </div>
                                         <div class="agp-input">
                                             <div class="class-product"> Preço Por: </div>  
-                                            <input class="input" type="text" value={turma} onChange={e => setTurma(e.target.value)} />
+                                            <input class="input" type="text" value={precoPor} onChange={e => setPrecoPor(e.target.value)} />
                                         </div>
                                         <div class="agp-input">
                                             <div class="number-product"> Estoque: </div>  
-                                            <input class="input" type="text" value={chamada} onChange={e => setChamada(e.target.value)} /> 
+                                            <input class="input" type="text" value={estoque} onChange={e => setEstoque(e.target.value)} /> 
                                         </div>
                                     </div>
                                     </div>
-                                    <div className="input-hehe">
-                                        <div class="text">
-                                        <div  class="agp-img">
+                                    <div class="agp-input" class="agp-img">
                                        <div class="img-product"> Link Imagem: </div>  
-                                       <input class="inputimg" type="text" value={chamada} onChange={e => setChamada(e.target.value)} /> 
+                                       <input class="inputimg" type="text" value={imagem} onChange={e => setImagem(e.target.value)} /> 
                                     </div>
+                                        <div class="text">
                                           <div class="desc">Descrição:</div>
-                                          <textarea class="descTextarea" ></textarea>
+                                          <textarea class="descTextarea" type="text" value={descProduto} onChange={e => setDescProduto(e.target.value)} ></textarea>
                                         </div>
-                                        </div>
-                                                <div class="button-create"> <button onClick={inserir}> {idAlterando == 0 ? "Cadastrar" : "Alterar"} </button> </div>
-                                </div>
+                                        <div class="button-create"> <button onClick={inserir}> {idAlterando == 0 ? "Cadastrar" : "Alterar"} </button> </div>                             
                             </div>
 
                             <div class="student-registered-box">
@@ -204,15 +211,16 @@ export default function Index() {
                                     </thead>
                             
                                     <tbody>
-                                        {alunos.map((item, i) =>    
+                                        {produto.map((item, i) =>    
                                             <tr className={i % 2 == 0 ? "linha-alternada" : ""}>
-                                                <td> {item.id_matricula} </td>
-                                                <td title={item.nm_aluno}> {item.nm_aluno != null && item.nm_aluno.length >= 20 ? item.nm_aluno.substr(0, 20) + "..." : item.nm_aluno} </td>
-                                                <td> {item.nr_chamada} </td>
-                                                <td> {item.nm_turma} </td>
-                                                <td> {item.nm_curso} </td>
+                                                <td className="imagem-pr"><img src={item.img_produto}/></td>
+                                                <td> {item.id_produto}</td>
+                                                <td title={item.nm_produto}> {item.nm_produto != null && item.nm_produto.length >= 25 ? item.nm_produto.substr(0, 25) + "..." : item.nm_produto} </td>
+                                                <td> {item.ds_categoria} </td>
+                                                <td> {item.vl_preco_por} </td>
+                                                <td> {item.qtd_estoque} </td>
                                                 <td className="coluna-acao" > <button onClick={ () => editar(item) }> <img src="/assets/images/edit.svg" alt="" /> </button> </td>
-                                                <td className="coluna-acao" > <button onClick={ () => remover(item.id_matricula) }> <img src="/assets/images/trash.svg" alt="" /> </button> </td>
+                                                <td className="coluna-acao" > <button onClick={ () => remover(item.id_produto) }> <img src="/assets/images/trash.svg" alt="" /> </button> </td>
                                             </tr>
                                         )}
                                     </tbody> 

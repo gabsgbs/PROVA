@@ -19,7 +19,7 @@ app.get('/produto', async(req, resp) => {
 
 app.post ('/produto', async(req, resp) => {
     try {
-        let {nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem, data} = req.body
+        let {nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem} = req.body
 
          let r = await db.tb_produto.create({
                   nm_produto: nome,
@@ -30,7 +30,7 @@ app.post ('/produto', async(req, resp) => {
                   ds_produto: descProduto,
                   qtd_estoque: estoque,
                   img_produto: imagem,
-                  dt_inclusao: data
+                  dt_inclusao: new Date()
             }) 
         resp.send(r)
     }  catch {
