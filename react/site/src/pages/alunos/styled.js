@@ -1,10 +1,12 @@
 import styled from 'styled-components'
 
 const Container = styled.div`
+    
 
     display: flex;
     flex-direction: row;
-    min-width: 100%;
+    max-width: 57.7em;
+    position: absolute;
 
     .new-student-box {
         display: flex;
@@ -15,7 +17,7 @@ const Container = styled.div`
         padding: 2em;
             
     }
-
+   
     .bar-new-student {
         border: 3px solid #119FDC;
         border-radius: .5em;
@@ -112,6 +114,7 @@ const Container = styled.div`
     display:flex;
     align-self: center; 
     margin-right: 12em;
+    margin-left: 8em;
     }
 
     .agp-img input{
@@ -139,7 +142,7 @@ const Container = styled.div`
         margin-top: 1em;
         justify-content: center;
         margin-right: 12em;
-      
+        margin-left: 8em;
        
     }
     
@@ -176,7 +179,7 @@ const Container = styled.div`
         align-self: flex-end;
         justify-self: flex-end;
         padding-bottom: 1.5em;
-      
+        padding-top: 1.5em;
     }
 
     .button-create  button {
@@ -356,7 +359,7 @@ const Container = styled.div`
 
     .absolute {
         color: white;
-        background-color: #DB21BD;
+        background-color: #119FDC;
         border: 3px solid white;
         border-radius: 50%;
         position: absolute;

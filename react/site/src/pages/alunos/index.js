@@ -45,27 +45,57 @@ export default function Index() {
     }, [])
 
 
-    async function inserir() {
+    async function r() {
         loading.current.continuousStart();
 
+        const  r = await api.listar()
         
-        if( precoPor > 0){
-            if(idAlterando == 0 ){
-                let r = await api.inserir (nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem); 
-                if(r.erro)
-                    toast.error('♏'+ r.erro)
-                else 
-                    toast.dark('♏Produto inserido')
-            } else {
-                let r = await api.alterar(idAlterando, nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem);
-                if(r.erro)
-                    toast.error('♏' + r.erro)
-                else
-                    toast.dark('♏Produto alterado')
-            }
-        } else (
-            toast.dark('♏O campo de preço está preenchido incorretamente')
-        )
+        setProduto(r) 
+        
+        if(loading.current != null) 
+            loading.current.complete();
+        
+    }
+
+ 
+    useEffect(() => {
+       
+        
+        listar()
+
+       
+    }, [])
+
+    
+
+    const validarResposta = (resp) => {
+       
+
+        if (!resp.erro)
+            return true;
+            toast.error(`${resp.erro}`);
+        return false;
+    }
+
+    const inserir = async () => {
+     
+        if(avaliacao, estoque, precoDe, precoPor < 0)
+        return  toast.dark('♏Não é inserir números negativo')     
+       
+        if(nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem == ""){
+            toast.dark('♏ todos os campos são obrigatorios')   
+        }
+       
+        if(idAlterando === 0) {
+        const r = await api.inserir(nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem )
+        if (!validarResposta(r))   
+        toast.dark('♏Produto Inserido')
+     } else {
+       const r = await api.alterar(idAlterando, nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem )
+        if (!validarResposta(r)) 
+        toast.dark('♏Produto Alterado')
+    }
+
         listar()
         limparCampos()
 
@@ -137,7 +167,7 @@ export default function Index() {
     return (
         <Container>
             <ToastContainer />
-            <LoadingBar color="#EA10C7" ref={loading} />
+            <LoadingBar color="cyan" ref={loading} />
             <Menu />
             <Conteudo>
                         <Cabecalho />

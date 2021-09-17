@@ -5,7 +5,8 @@ const Container = styled.div`
     flex-direction: column;
     
     background-color: #2B3031;
-    
+
+    width: 20em;
     height: 100vh;
     padding-bottom: 0em;
     position: sticky;
@@ -32,7 +33,7 @@ const Container = styled.div`
     }
     .black-box {
         background-color: #262626;
-        width: 356px;
+        width: 300px;
         height: 61px;
     }
     .left-box-management {
