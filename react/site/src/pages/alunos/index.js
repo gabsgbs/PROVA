@@ -80,7 +80,7 @@ export default function Index() {
     const inserir = async () => {
      
         if(avaliacao, estoque, precoDe, precoPor < 0)
-        return  toast.dark('♏Não é possivel inserir números negativo')     
+        return toast.dark('♏Não é possivel inserir números negativo')     
        
         if(nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem == ""){
             toast.dark('♏ todos os campos são obrigatorios')   
