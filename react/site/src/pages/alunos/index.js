@@ -92,7 +92,7 @@ export default function Index() {
      } else {
        const r = await api.alterar(idAlterando, nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem )
         if (!validarResposta(r)) 
-        toast.dark('♏Produto Alterado')
+        return toast.dark('♏Produto Alterado')
     } 
 
         listar()
