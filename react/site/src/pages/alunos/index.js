@@ -73,27 +73,25 @@ export default function Index() {
 
         if (!resp.erro)
             return true;
-            toast.error(`${resp.erro}`);
+            else toast.error(`${resp.erro}`);
         return false;
     }
 
     const inserir = async () => {
      
-        if(avaliacao, estoque, precoDe, precoPor < 0)
-        return toast.dark('♏Não é possivel inserir números negativo')     
-       
-        if(nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem == ""){
-            toast.dark('♏ todos os campos são obrigatorios')   
-        } else
-          if(idAlterando === 0) {
+        if(avaliacao, estoque, precoDe, precoPor < 0 )
+        return toast.dark('♏Os campos numéricos devem ser preenchidos com números positivos')   
+     
+        else if(nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem == ""){
+            toast.dark('♏Campo nulo detectado')   
+        } else {
+          if(idAlterando == 0) {
         const r = await api.inserir(nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem )
-        if (!validarResposta(r))   
-        toast.dark('♏Produto Inserido')
+        toast.dark('♏Produto Inserido') && limparCampos()
      } else {
        const r = await api.alterar(idAlterando, nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem )
-        if (!validarResposta(r)) 
-        return toast.dark('♏Produto Alterado')
-    } 
+        return toast.dark('♏Produto Alterado') && limparCampos()
+    } }
 
         listar()
         limparCampos()
