@@ -80,13 +80,12 @@ export default function Index() {
     const inserir = async () => {
      
         if(avaliacao, estoque, precoDe, precoPor < 0)
-        return  toast.dark('♏Não é inserir números negativo')     
+        return  toast.dark('♏Não é possivel inserir números negativo')     
        
         if(nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem == ""){
             toast.dark('♏ todos os campos são obrigatorios')   
-        }
-       
-        if(idAlterando === 0) {
+        } else
+          if(idAlterando === 0) {
         const r = await api.inserir(nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem )
         if (!validarResposta(r))   
         toast.dark('♏Produto Inserido')
@@ -94,7 +93,7 @@ export default function Index() {
        const r = await api.alterar(idAlterando, nome, categoria, precoDe, precoPor, avaliacao, descProduto, estoque, imagem )
         if (!validarResposta(r)) 
         toast.dark('♏Produto Alterado')
-    }
+    } 
 
         listar()
         limparCampos()
